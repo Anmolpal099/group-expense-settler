@@ -7,10 +7,10 @@ A simple Python program that calculates who owes whom after a group trip — usi
 ## How to Run
 
 ```bash
-C:/Users/97797/AppData/Roaming/uv/python/cpython-3.14.4-windows-x86_64-none/python.exe expense_tracker.py
+python ./expense_tracker.py
 ```
 
-Or if `python` is in your PATH:
+Or from the project directory:
 
 ```bash
 python expense_tracker.py
