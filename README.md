@@ -1,122 +1,166 @@
 # Group Expense Tracker
 
-A simple Python program that calculates who owes whom after a group trip — using the **fewest possible transactions**.
+A friendly Python script for a group of friends who want to split shared expenses and settle up cleanly.
+
+---
+
+## Quick Demo
+
+Run the script and see something like this:
+
+```
+==================================================
+       GROUP EXPENSE TRACKER
+==================================================
+
+📋 EXPENSES:
+  1. Anmol paid $120.00 for ['Anmol', 'Sanjay', 'Niraj', 'Manish', 'Gaurav'] → $24.00/person
+  2. Sanjay paid $45.00 for ['Sanjay', 'Niraj', 'Manish'] → $15.00/person
+  3. Niraj paid $80.00 for ['Anmol', 'Niraj', 'Gaurav'] → $26.67/person
+  4. Manish paid $30.00 for ['Anmol', 'Sanjay', 'Manish'] → $10.00/person
+  5. Gaurav paid $96.00 for ['Sanjay', 'Niraj', 'Manish', 'Gaurav'] → $24.00/person
+  6. Anmol paid $50.00 for ['Anmol', 'Sanjay', 'Gaurav'] → $16.67/person
+  7. Sanjay paid $70.00 for ['Anmol', 'Sanjay', 'Niraj', 'Manish'] → $17.50/person
+  8. Niraj paid $33.00 for ['Niraj', 'Manish', 'Gaurav'] → $11.00/person
+
+💰 NET BALANCES:
+  Anmol      is owed  $75.17
+  Sanjay     is owed  $7.83
+  Niraj      owes     $5.17
+  Manish     owes     $71.50
+  Gaurav     owes     $6.33
+
+✅ SETTLEMENT PLAN (4 transactions):
+  Manish pays Anmol $71.50
+  Gaurav pays Sanjay $6.33
+  Niraj pays Anmol $3.67
+  Niraj pays Sanjay $1.50
+
+==================================================
+  Total transactions needed: 4
+==================================================
+
+📊 VISUALIZATION
+--------------------------------------------------
+  Anmol      + $75.17 |██████████████████████████████
+  Sanjay     + $7.83 |███
+  Niraj      - $5.17 |██
+  Manish     - $71.50 |████████████████████████████
+  Gaurav     - $6.33 |██
+
+  Settlement flow:
+    Manish → Anmol : $71.50
+    Gaurav → Sanjay : $6.33
+    Niraj → Anmol : $3.67
+    Niraj → Sanjay : $1.50
+
+  Install matplotlib to save a bar chart image: python -m pip install matplotlib
+```
 
 ---
 
 ## How to Run
 
+Open a terminal inside this folder and run:
+
 ```bash
 python ./expense_tracker.py
 ```
 
-Or from the project directory:
-
-```bash
-python expense_tracker.py
-```
-
-Pure Python. Optional: `matplotlib` for chart visualization.
+That’s it — the script runs with plain Python. If you want a saved chart image, install `matplotlib`.
 
 ---
 
-## What the Program Does
+## What this does
 
-### Step 1 — Calculate Net Balances
+This project helps you see:
 
-For every expense, the **payer gets full credit**, and **each participant is charged their equal share**.
+- who paid for each expense,
+- who owes money,
+- who is owed money,
+- and the easiest way to settle up.
 
-```
-Net Balance = Total Paid  −  Total Share Owed
-```
-
-- **Positive balance** → this person is *owed* money  
-- **Negative balance** → this person *owes* money  
+It works for a small group and keeps the math clean so the totals always balance.
 
 ---
 
-### Step 2 — Settle with Fewest Transactions
+## Who is in the example
 
-The program uses a **greedy algorithm**:
+This demo uses five friends:
 
-1. Separate everyone into two groups: **creditors** (owed money) and **debtors** (owe money).
-2. Always pick the **largest debtor** and **largest creditor**.
-3. The debtor pays the creditor the **smaller of the two amounts**.
-4. That fully settles at least one person (they reach zero).
-5. Repeat until everyone is settled.
+- Anmol
+- Sanjay
+- Niraj
+- Manish
+- Gaurav
 
-**Why this minimizes transactions:**  
-Every single transaction fully eliminates at least one person from the list. So with N people who have non-zero balances, you need at most **N − 1 transactions** — which is the minimum possible.
-
-**Example from our demo (5 people, 8 expenses):**
-```
-Manish   pays Anmol   $71.50
-Gaurav     pays Sanjay     $6.33
-Niraj pays Anmol   $3.67
-Niraj pays Sanjay     $1.50
-```
-Only **4 transactions** to fully settle 5 people. ✅
+They share eight expenses in the example data.
 
 ---
 
-## Rounding Strategy
+## How it works
 
-Expenses are sometimes split unevenly (e.g., $80 ÷ 3 = $26.666...).
-
-**How we handle it:**
-1. All calculations use full floating-point precision.
-2. At the end, each person's balance is **rounded to 2 decimal places** (nearest cent).
-3. We check if the sum of all balances equals exactly zero.
-4. If there is a tiny residue (e.g., $0.01) due to rounding, it is **absorbed by the person with the largest absolute balance** — the person most involved financially, so it affects them the least proportionally.
-
-**Why this is fair:**  
-The residue is always at most a few cents across the whole group. Placing it on the largest balance person means it's a negligible adjustment (e.g., $0.01 on a $75 balance).
+1. Every expense is split equally among the people involved.
+2. The person who paid gets credit for the full amount.
+3. Each person’s final balance becomes either:
+   - positive (they should receive money), or
+   - negative (they need to pay money).
+4. The script then suggests simple payments that settle the group quickly.
 
 ---
 
-## Demo Data
+## Why the balances stay clean
 
-| # | Payer   | Amount  | Participants                        | Share/person |
-|---|---------|---------|-------------------------------------|--------------|
-| 1 | Anmol   | $120.00 | Anmol, Sanjay, Niraj, Manish, Gaurav     | $24.00       |
-| 2 | Sanjay     | $45.00  | Sanjay, Niraj, Manish                 | $15.00       |
-| 3 | Niraj | $80.00  | Anmol, Niraj, Gaurav                 | $26.67       |
-| 4 | Manish   | $30.00  | Anmol, Sanjay, Manish                   | $10.00       |
-| 5 | Gaurav     | $96.00  | Sanjay, Niraj, Manish, Gaurav            | $24.00       |
-| 6 | Anmol   | $50.00  | Anmol, Sanjay, Gaurav                     | $16.67       |
-| 7 | Sanjay     | $70.00  | Anmol, Sanjay, Niraj, Manish          | $17.50       |
-| 8 | Niraj | $33.00  | Niraj, Manish, Gaurav                 | $11.00       |
+Some expense splits do not divide evenly into cents. The code:
 
-### Net Balances
+- calculates with full precision,
+- rounds each final balance to two decimals,
+- and adjusts any tiny leftover cent so the total stays at zero.
+
+That keeps the result fair and exact.
+
+---
+
+## What the output shows
+
+The script prints:
+
+- a list of the shared expenses,
+- each person’s net balance,
+- a settlement plan showing who pays whom,
+- and a simple text-based bar chart.
+
+If `matplotlib` is installed, it also saves a bar chart image as `expense_balances.png`.
+
+### Net Balances Example
 
 | Person  | Balance   | Status              |
 |---------|-----------|---------------------|
 | Anmol   | +$75.17   | Is owed money ✅    |
-| Sanjay     | +$7.83    | Is owed money ✅    |
-| Niraj | −$5.17    | Owes money ❌       |
-| Manish   | −$71.50   | Owes money ❌       |
-| Gaurav     | −$6.33    | Owes money ❌       |
+| Sanjay  | +$7.83    | Is owed money ✅    |
+| Niraj   | −$5.17    | Owes money ❌       |
+| Manish  | −$71.50   | Owes money ❌       |
+| Gaurav  | −$6.33    | Owes money ❌       |
 
-### Settlement Plan (4 transactions)
+### Settlement Plan Example
 
-```
-Manish   pays Anmol   $71.50
-Gaurav     pays Sanjay     $6.33
-Niraj pays Anmol   $3.67
-Niraj pays Sanjay     $1.50
-```
+| From   | To    | Amount  |
+|--------|-------|---------|
+| Manish | Anmol | $71.50  |
+| Gaurav | Sanjay| $6.33   |
+| Niraj  | Anmol | $3.67   |
+| Niraj  | Sanjay| $1.50   |
+
+**Total transactions: 4** (the minimum possible for 5 people!)
 
 ---
 
 ## Visualization
 
-The script  includes a simple visualization step after computing balances.
+The program includes a friendly terminal chart.
+If you install `matplotlib`, it will also create a saved image.
 
-- A text-based bar chart displays each person’s net balance.
-- A settlement flow list shows who pays whom.
-- If `matplotlib` is installed, the script also saves a bar chart image to `expense_balances.png`.
-
-To install `matplotlib`:
+To install it:
 
 ```bash
 python -m pip install matplotlib
@@ -124,16 +168,29 @@ python -m pip install matplotlib
 
 ---
 
-## Code Structure
+## Try it yourself
+
+1. Clone or download this repo.
+2. Run `python ./expense_tracker.py`.
+3. See the results for the demo group.
+4. Edit the `expenses` list in the code to add your own group's expenses.
+5. Run again to see your custom settlement plan!
+
+---
+
+## Code structure
+
+This project is just one file:
 
 ```
 expense_tracker.py
 │
-├── expenses[]            # Input: 8 expense records
-├── calculate_balances()  # Computes net balance per person
-├── settle()              # Greedy algorithm → fewest transactions
-├── display()             # Prints results clearly
-└── visualize()           # Text bar chart + optional matplotlib chart
+├── friends[]              # The list of people in the group
+├── expenses[]             # The example expense records
+├── calculate_balances()   # Works out how much each person owes or is owed
+├── settle()               # Builds a short settlement plan
+├── display()              # Prints the results in a friendly way
+└── visualize()            # Shows a text bar chart and optional image export
 ```
 
 ---
