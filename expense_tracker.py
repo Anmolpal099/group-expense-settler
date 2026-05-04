@@ -144,9 +144,51 @@ def display(balances, transactions):
     print("=" * 50)
 
 
+def visualize(balances, transactions):
+    """Print a text visualization and optionally save a chart if matplotlib is installed."""
+    print("\n📊 VISUALIZATION")
+    print("-" * 50)
+
+    max_abs = max(abs(v) for v in balances.values()) if balances else 0
+    scale = 30 / max_abs if max_abs else 1
+
+    for person, bal in sorted(balances.items()):
+        bar_length = int(abs(bal) * scale)
+        bar = "█" * bar_length
+        prefix = "+" if bal >= 0 else "-"
+        print(f"  {person:<10} {prefix} ${abs(bal):.2f} |{bar}")
+
+    print("\n  Settlement flow:")
+    for debtor, creditor, amount in transactions:
+        print(f"    {debtor} → {creditor} : ${amount:.2f}")
+
+    try:
+        import matplotlib.pyplot as plt
+
+        people = list(balances.keys())
+        values = [balances[p] for p in people]
+        colors = ["#2ca02c" if v >= 0 else "#d62728" for v in values]
+
+        fig, ax = plt.subplots(figsize=(8, 4))
+        ax.bar(people, values, color=colors)
+        ax.axhline(0, color="black", linewidth=0.8)
+        ax.set_ylabel("Net balance ($)")
+        ax.set_title("Group Expense Balances")
+        ax.grid(axis="y", linestyle="--", alpha=0.4)
+        fig.tight_layout()
+
+        output_path = "expense_balances.png"
+        fig.savefig(output_path)
+        plt.close(fig)
+        print(f"\n  Chart saved to: {output_path}")
+    except ImportError:
+        print("\n  Install matplotlib to save a bar chart image: python -m pip install matplotlib")
+
+
 # ── 5. RUN ────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
     balances     = calculate_balances(expenses)
     transactions = settle(balances)
     display(balances, transactions)
+    visualize(balances, transactions)

@@ -102,6 +102,22 @@ Charlie pays Bob     $1.50
 
 ---
 
+## Visualization
+
+The script  includes a simple visualization step after computing balances.
+
+- A text-based bar chart displays each person’s net balance.
+- A settlement flow list shows who pays whom.
+- If `matplotlib` is installed, the script also saves a bar chart image to `expense_balances.png`.
+
+To install `matplotlib`:
+
+```bash
+python -m pip install matplotlib
+```
+
+---
+
 ## Code Structure
 
 ```
