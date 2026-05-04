@@ -126,7 +126,8 @@ expense_tracker.py
 ├── expenses[]            # Input: 8 expense records
 ├── calculate_balances()  # Computes net balance per person
 ├── settle()              # Greedy algorithm → fewest transactions
-└── display()             # Prints results clearly
+├── display()             # Prints results clearly
+└── visualize()           # Text bar chart + optional matplotlib chart
 ```
 
 ---
