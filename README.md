@@ -10,7 +10,7 @@ A simple Python program that calculates who owes whom after a group trip — usi
 python expense_tracker.py
 ```
 
-No external libraries needed. Pure Python.
+Pure Python. Optional: `matplotlib` for chart visualization.
 
 ---
 
