@@ -50,10 +50,10 @@ Every single transaction fully eliminates at least one person from the list. So 
 
 **Example from our demo (5 people, 8 expenses):**
 ```
-Diana   pays Alice   $71.50
-Eve     pays Bob     $6.33
-Charlie pays Alice   $3.67
-Charlie pays Bob     $1.50
+Manish   pays Anmol   $71.50
+Gaurav     pays Sanjay     $6.33
+Niraj pays Anmol   $3.67
+Niraj pays Sanjay     $1.50
 ```
 Only **4 transactions** to fully settle 5 people. ✅
 
@@ -78,32 +78,32 @@ The residue is always at most a few cents across the whole group. Placing it on 
 
 | # | Payer   | Amount  | Participants                        | Share/person |
 |---|---------|---------|-------------------------------------|--------------|
-| 1 | Alice   | $120.00 | Alice, Bob, Charlie, Diana, Eve     | $24.00       |
-| 2 | Bob     | $45.00  | Bob, Charlie, Diana                 | $15.00       |
-| 3 | Charlie | $80.00  | Alice, Charlie, Eve                 | $26.67       |
-| 4 | Diana   | $30.00  | Alice, Bob, Diana                   | $10.00       |
-| 5 | Eve     | $96.00  | Bob, Charlie, Diana, Eve            | $24.00       |
-| 6 | Alice   | $50.00  | Alice, Bob, Eve                     | $16.67       |
-| 7 | Bob     | $70.00  | Alice, Bob, Charlie, Diana          | $17.50       |
-| 8 | Charlie | $33.00  | Charlie, Diana, Eve                 | $11.00       |
+| 1 | Anmol   | $120.00 | Anmol, Sanjay, Niraj, Manish, Gaurav     | $24.00       |
+| 2 | Sanjay     | $45.00  | Sanjay, Niraj, Manish                 | $15.00       |
+| 3 | Niraj | $80.00  | Anmol, Niraj, Gaurav                 | $26.67       |
+| 4 | Manish   | $30.00  | Anmol, Sanjay, Manish                   | $10.00       |
+| 5 | Gaurav     | $96.00  | Sanjay, Niraj, Manish, Gaurav            | $24.00       |
+| 6 | Anmol   | $50.00  | Anmol, Sanjay, Gaurav                     | $16.67       |
+| 7 | Sanjay     | $70.00  | Anmol, Sanjay, Niraj, Manish          | $17.50       |
+| 8 | Niraj | $33.00  | Niraj, Manish, Gaurav                 | $11.00       |
 
 ### Net Balances
 
 | Person  | Balance   | Status              |
 |---------|-----------|---------------------|
-| Alice   | +$75.17   | Is owed money ✅    |
-| Bob     | +$7.83    | Is owed money ✅    |
-| Charlie | −$5.17    | Owes money ❌       |
-| Diana   | −$71.50   | Owes money ❌       |
-| Eve     | −$6.33    | Owes money ❌       |
+| Anmol   | +$75.17   | Is owed money ✅    |
+| Sanjay     | +$7.83    | Is owed money ✅    |
+| Niraj | −$5.17    | Owes money ❌       |
+| Manish   | −$71.50   | Owes money ❌       |
+| Gaurav     | −$6.33    | Owes money ❌       |
 
 ### Settlement Plan (4 transactions)
 
 ```
-Diana   pays Alice   $71.50
-Eve     pays Bob     $6.33
-Charlie pays Alice   $3.67
-Charlie pays Bob     $1.50
+Manish   pays Anmol   $71.50
+Gaurav     pays Sanjay     $6.33
+Niraj pays Anmol   $3.67
+Niraj pays Sanjay     $1.50
 ```
 
 ---

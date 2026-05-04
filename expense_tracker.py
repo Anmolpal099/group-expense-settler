@@ -1,30 +1,21 @@
-"""
-Group Expense Tracker - Settlement Calculator
-==============================================
-Rounding Strategy:
-  - All balances are kept as floats during calculation.
-  - At the end, each balance is rounded to 2 decimal places.
-  - If total rounding causes a tiny imbalance (e.g., +0.01),
-    it is absorbed by the person with the largest absolute balance.
-  - This ensures all balances sum exactly to zero before settlement.
-"""
+
 
 from collections import defaultdict
 
 
 # ── 1. DATA: 5 people, 8 expenses ─────────────────────────────────────────────
 
-people = ["Alice", "Bob", "Charlie", "Diana", "Eve"]
+people = ["Anmol", "Sanjay", "Niraj", "Manish", "Gaurav"]
 
 expenses = [
-    {"payer": "Alice",   "amount": 120.00, "participants": ["Alice", "Bob", "Charlie", "Diana", "Eve"]},
-    {"payer": "Bob",     "amount": 45.00,  "participants": ["Bob", "Charlie", "Diana"]},
-    {"payer": "Charlie", "amount": 80.00,  "participants": ["Alice", "Charlie", "Eve"]},
-    {"payer": "Diana",   "amount": 30.00,  "participants": ["Alice", "Bob", "Diana"]},
-    {"payer": "Eve",     "amount": 96.00,  "participants": ["Bob", "Charlie", "Diana", "Eve"]},
-    {"payer": "Alice",   "amount": 50.00,  "participants": ["Alice", "Bob", "Eve"]},
-    {"payer": "Bob",     "amount": 70.00,  "participants": ["Alice", "Bob", "Charlie", "Diana"]},
-    {"payer": "Charlie", "amount": 33.00,  "participants": ["Charlie", "Diana", "Eve"]},
+    {"payer": "Anmol",   "amount": 120.00, "participants": ["Anmol", "Sanjay", "Niraj", "Manish", "Gaurav"]},
+    {"payer": "Sanjay",     "amount": 45.00,  "participants": ["Sanjay", "Niraj", "Manish"]},
+    {"payer": "Niraj", "amount": 80.00,  "participants": ["Anmol", "Niraj", "Gaurav"]},
+    {"payer": "Manish",   "amount": 30.00,  "participants": ["Anmol", "Sanjay", "Manish"]},
+    {"payer": "Gaurav",     "amount": 96.00,  "participants": ["Sanjay", "Niraj", "Manish", "Gaurav"]},
+    {"payer": "Anmol",   "amount": 50.00,  "participants": ["Anmol", "Sanjay", "Gaurav"]},
+    {"payer": "Sanjay",     "amount": 70.00,  "participants": ["Anmol", "Sanjay", "Niraj", "Manish"]},
+    {"payer": "Niraj", "amount": 33.00,  "participants": ["Niraj", "Manish", "Gaurav"]},
 ]
 
 
